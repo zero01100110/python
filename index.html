@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#151b23">
+  <meta name="description" content="PyForge — Python IDE trên trình duyệt với editor, project, notebook, dữ liệu và kernel Jupyter.">
+  <title>PyForge — Python workspace</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="titlebar">
+      <button class="brand" data-action="about" aria-label="Giới thiệu PyForge"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 6h13l5 5-7 7H9l-3 3V9z" fill="currentColor"/><path d="M24 26H11l-5-5 7-7h10l3-3v12z" fill="currentColor" opacity=".45"/></svg><span>PyForge<span class="brand-sub">IDE</span></span></button>
+      <nav class="menubar" aria-label="Menu chính">
+        <button data-menu="file">File</button><button data-menu="edit">Edit</button><button data-menu="view">View</button><button data-menu="run">Run</button><button data-menu="tools">Tools</button><button data-menu="help">Help</button>
+      </nav>
+      <button class="command-trigger" data-action="commands"><span class="search-symbol">⌕</span><span id="title-project">python-workspace</span><kbd>Ctrl K</kbd></button>
+      <div class="top-actions"><button class="icon-button" data-action="theme" title="Đổi sáng/tối" aria-label="Đổi sáng/tối">◐</button><button class="icon-button" data-action="settings" title="Cài đặt" aria-label="Cài đặt">⚙</button></div>
+    </header>
+    <div class="workbench">
+      <aside class="activitybar" aria-label="Công cụ">
+        <button class="activity active" data-panel="explorer" title="Explorer — file và project" aria-label="Explorer"><svg viewBox="0 0 24 24"><path d="M8 3h9l4 4v14H8zM17 3v5h4M4 7H2v14h3"/></svg></button>
+        <button class="activity" data-panel="search" title="Tìm trong project" aria-label="Tìm trong project"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></button>
+        <button class="activity" data-panel="packages" title="Thư viện Python" aria-label="Thư viện Python"><svg viewBox="0 0 24 24"><path d="m12 2 9 5v10l-9 5-9-5V7zM3 7l9 5 9-5M12 12v10M7.5 4.5l9 5"/></svg></button>
+        <button class="activity" data-panel="data" title="Data và SQL" aria-label="Data và SQL"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 4 18 4 18 0V5M3 12c0 4 18 4 18 0"/></svg></button>
+        <button class="activity" data-panel="trace" title="Trace và breakpoint" aria-label="Trace và breakpoint"><svg viewBox="0 0 24 24"><path d="m9 3 10 9-10 9zM4 3v18"/></svg></button>
+        <div class="activity-spacer"></div>
+        <button class="activity" data-action="kernel" title="Kết nối kernel" aria-label="Kết nối kernel"><svg viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M5 8h14v3a7 7 0 0 1-14 0zM12 18v4"/></svg></button>
+        <button class="activity" data-action="settings" title="Cài đặt" aria-label="Cài đặt"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="m9 2 6 0 1 3 3 1 3 3-1 6-3 1-1 3-3 3-6-1-1-3-3-1-3-3 1-6 3-1 1-3z"/></svg></button>
+      </aside>
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-heading"><span id="panel-title">EXPLORER</span><button class="icon-button" data-action="toggle-sidebar" title="Ẩn sidebar" aria-label="Ẩn sidebar">‹</button></div>
+        <section class="side-panel" id="panel-explorer">
+          <div class="project-row"><select id="project-select" aria-label="Chọn project"></select><button class="icon-button" data-action="new-project" title="Tạo project" aria-label="Tạo project">＋</button></div>
+          <div class="section-label"><span>WORKSPACE</span><div class="small-tools"><button class="icon-button" data-action="new-file" title="File mới" aria-label="File mới">＋</button><button class="icon-button" data-action="new-folder" title="Thư mục mới" aria-label="Thư mục mới">⊞</button><button class="icon-button" data-action="upload" title="Nhập file" aria-label="Nhập file">↥</button><button class="icon-button" data-action="file-options" title="Tùy chọn file" aria-label="Tùy chọn file">⋯</button></div></div>
+          <div id="file-tree" role="tree" aria-label="File trong project"></div>
+          <div class="sidebar-bottom"><button class="subtle-button full" data-action="upload-folder"><span>↥</span> Mở thư mục từ máy</button><button class="subtle-button full" data-action="export-project"><span>↧</span> Xuất project ZIP</button><p id="storage-summary">Tự lưu trên thiết bị này</p></div>
+        </section>
+        <section class="side-panel hidden" id="panel-search"><div class="panel-padding"><input id="search-input" placeholder="Tìm trong mọi file…" aria-label="Tìm trong project"><input id="replace-input" placeholder="Thay bằng…" aria-label="Nội dung thay thế"><div class="row"><label class="check-label"><input type="checkbox" id="search-case"> Phân biệt hoa/thường</label><button class="small-button" data-action="replace-all">Thay tất cả</button></div><p class="muted small" id="search-count">Nhập từ khóa để tìm.</p></div><div id="search-results"></div></section>
+        <section class="side-panel hidden" id="panel-packages"><div class="panel-padding"><p class="muted small">Tự nạp thư viện khi import. Thêm gói vào môi trường tại đây.</p><div class="input-group"><input id="pip-input" placeholder="Tên gói hoặc tên==version" aria-label="Tên thư viện"><button class="small-button accent" data-action="pip-install">Cài</button></div><button class="subtle-button full" data-action="requirements">Cài requirements.txt</button><input id="package-filter" placeholder="Tìm trong catalog Pyodide…" aria-label="Lọc thư viện"><div class="row"><span class="pill" id="package-count">Catalog chưa tải</span><button class="small-button" data-action="load-kernel">Tải kernel</button></div></div><div id="package-list"></div></section>
+        <section class="side-panel hidden" id="panel-data"><div class="panel-padding"><p class="muted small">File dữ liệu trong project. Chọn file để xem bảng hoặc chạy SQL.</p><select id="data-file" aria-label="Chọn file dữ liệu"></select><textarea id="sql-input" class="sql-input hidden" spellcheck="false" placeholder="SELECT * FROM table_name LIMIT 100;" aria-label="Câu lệnh SQL"></textarea><button class="primary full" data-action="preview-data">▦ Xem dữ liệu / chạy SQL</button><p class="muted small">Bảng xem trước tối đa 200 dòng và 60 cột. File gốc giữ toàn bộ dữ liệu.</p><button class="subtle-button full" data-action="data-code">Chèn code đọc dữ liệu</button></div></section>
+        <section class="side-panel hidden" id="panel-trace"><div class="panel-padding"><p class="muted small">Trace ghi trạng thái trước mỗi dòng trong lần chạy, rồi cho phép xem lại. Không dừng chương trình trực tiếp tại breakpoint.</p><button class="primary full" data-action="trace">▷ Chạy và ghi trace</button><div class="trace-controls"><button class="small-button" data-action="trace-prev" title="Bước trước">←</button><button class="small-button" data-action="trace-next" title="Bước tiếp">→</button><button class="small-button" data-action="trace-continue" title="Đến breakpoint tiếp theo">⇥ Breakpoint</button></div><p id="trace-position" class="muted small">Chưa có bản ghi.</p><div id="trace-stack"></div></div><div class="section-label">LOCALS</div><div id="trace-locals"></div><div class="section-label">BREAKPOINTS</div><div id="breakpoint-list"></div></section>
+      </aside>
+      <div id="sidebar-resizer" class="vertical-resizer" title="Kéo để đổi chiều rộng"></div>
+      <main class="main-workspace">
+        <div class="workspace-toolbar"><div class="workspace-name"><span class="workspace-dot"></span><strong id="workspace-label">python-workspace</strong><span class="label-tiny">LOCAL WORKSPACE</span></div><div class="run-actions"><button class="kernel-button" data-action="kernel"><span id="kernel-dot" class="status-dot"></span><span id="kernel-label">Python · Browser</span><span>⌄</span></button><button class="primary run-button" data-action="run" id="run-button"><span>▶</span> Run <kbd>F5</kbd></button><button class="stop-button" data-action="stop" id="stop-button" disabled title="Dừng Python" aria-label="Dừng Python">■</button></div></div>
+        <div class="tabbar" id="file-tabs" role="tablist" aria-label="Các file đang mở"></div>
+        <div class="breadcrumb-bar"><span id="breadcrumb">main.py</span><div class="breadcrumb-actions"><button class="icon-button" data-action="new-notebook" title="Notebook mới" aria-label="Notebook mới">▦</button><button class="icon-button" data-action="format" title="Format file" aria-label="Format file">{ }</button><button class="icon-button" data-action="find" title="Tìm trong file" aria-label="Tìm trong file">⌕</button><button class="icon-button" data-action="download-file" title="Tải file hiện tại" aria-label="Tải file hiện tại">↓</button></div></div>
+        <div class="editor-area" id="editor-area">
+          <div id="code-editor"></div>
+          <div id="notebook-editor" class="hidden"></div>
+          <div id="file-preview" class="hidden"></div>
+          <div id="empty-editor" class="empty-editor hidden"><div class="empty-mark">Py<span>Forge</span></div><p>Không gian lập trình Python của bạn.</p><div class="empty-shortcuts"><span>Tạo file <kbd>Ctrl N</kbd></span><span>Mở lệnh <kbd>Ctrl Shift P</kbd></span><span>Chạy Python <kbd>F5</kbd></span></div><button class="primary" data-action="new-file">＋ File mới</button></div>
+        </div>
+        <div id="panel-resizer" class="horizontal-resizer" title="Kéo để đổi chiều cao console"></div>
+        <section class="bottom-panel" id="bottom-panel">
+          <div class="bottom-tabs"><div role="tablist" aria-label="Kết quả Python"><button class="active" data-bottom="console" role="tab">CONSOLE <span id="console-badge"></span></button><button data-bottom="outputs" role="tab">OUTPUTS <span id="output-count">0</span></button><button data-bottom="variables" role="tab">VARIABLES <span id="variable-count">0</span></button><button data-bottom="problems" role="tab">PROBLEMS <span id="problem-count">0</span></button><button data-bottom="stdin" role="tab">STDIN / ARGS</button></div><div class="small-tools"><span id="run-summary" class="muted small">Sẵn sàng</span><button class="icon-button" data-action="clear-console" title="Xóa console" aria-label="Xóa console">⌫</button><button class="icon-button" data-action="toggle-bottom" title="Ẩn/hiện console" aria-label="Ẩn/hiện console">⌄</button></div></div>
+          <div id="bottom-console" class="bottom-content"><div id="console-output" role="log" aria-live="polite"></div><form id="repl-form" class="repl-row"><label for="repl-input">&gt;&gt;&gt;</label><input id="repl-input" autocomplete="off" spellcheck="false" placeholder="Biểu thức hoặc Python code… Enter để chạy" aria-label="Python console"><button class="icon-button" type="submit" title="Chạy console" aria-label="Chạy console">↵</button></form></div>
+          <div id="bottom-outputs" class="bottom-content hidden"><div id="rich-outputs" class="rich-outputs"><div class="panel-empty">Biểu đồ, bảng dữ liệu và rich output sẽ hiển thị tại đây.</div></div></div>
+          <div id="bottom-variables" class="bottom-content hidden"><div id="variables-view" class="variables-view"><div class="panel-empty">Chạy code để xem biến trong kernel.</div></div></div>
+          <div id="bottom-problems" class="bottom-content hidden"><div class="problem-toolbar"><button class="small-button" data-action="lint">Kiểm tra với Pyflakes</button><span class="muted small">Phân tích tĩnh; không thay thế kiểm thử.</span></div><div id="problems-view"></div></div>
+          <div id="bottom-stdin" class="bottom-content hidden"><div class="stdin-grid"><label>INPUT() · MỖI DÒNG MỘT GIÁ TRỊ<textarea id="stdin-input" spellcheck="false" placeholder="Ví dụ:\nNguyễn An\n25"></textarea></label><label>SYS.ARGV · MẢNG JSON<input id="argv-input" value="[]" spellcheck="false" placeholder='["--file", "data.csv"]'><span class="muted small">Browser dùng stdin điền trước. Jupyter hỗ trợ hộp nhập trong lúc chạy.</span></label></div></div>
+        </section>
+      </main>
+    </div>
+    <footer class="statusbar"><div><button data-action="kernel"><span id="status-kernel">○ Kernel chưa tải</span></button><span id="save-status">Đang mở workspace…</span></div><div><span id="cursor-status">Ln 1, Col 1</span><button data-action="settings" id="indent-status">Spaces: 4</button><span id="language-status">Python</span><span>UTF-8</span><button data-action="toggle-bottom">⌄ Console</button></div></footer>
+  </div>
+  <div id="dropdown" class="dropdown hidden"></div>
+  <dialog id="dialog"><div id="dialog-content"></div></dialog>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <input id="file-upload" type="file" multiple hidden><input id="folder-upload" type="file" webkitdirectory multiple hidden><input id="backup-upload" type="file" accept=".json" hidden><input id="zip-upload" type="file" accept=".zip" hidden>
+  <script>if(location.protocol==='file:'){document.body.insertAdjacentHTML('beforeend','<div style="position:fixed;inset:0;z-index:1000;background:#151b23;color:#d8e2ed;display:grid;place-content:center;padding:25px;font:16px/1.7 system-ui"><h1>PyForge cần HTTP</h1><p>Chạy START_WINDOWS.bat, dùng Live Server,<br>hoặc đưa chương trình lên GitHub Pages.<br>Xem README.md để có hướng dẫn chi tiết.</p></div>');}</script>
+  <script type="module" src="./src/app.js"></script>
+  <noscript>PyForge cần JavaScript để chạy. Hãy bật JavaScript trong trình duyệt.</noscript>
+</body>
+</html>

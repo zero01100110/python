@@ -1,0 +1,17 @@
+{
+  "name": "pyforge-ide",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Python IDE chạy trên trình duyệt, hỗ trợ Pyodide và Jupyter.",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "test": "node --test tests/*.test.mjs",
+    "build": "node tools/build.mjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "linkedom": "0.18.13",
+    "fake-indexeddb": "6.2.5"
+  }
+}
